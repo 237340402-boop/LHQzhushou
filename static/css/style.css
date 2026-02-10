@@ -1,0 +1,58 @@
+﻿/* 基础交互样式 */
+.page-section {
+    display: none;
+}
+.page-section.active {
+    display: block;
+}
+.nav-link.active {
+    background-color: #DC2626;
+    color: white;
+}
+/* 移动端导航动画 */
+#mobile-nav.show {
+    display: block;
+}
+#mobile-nav.show > div {
+    transform: translateX(0);
+}
+/* 对话气泡优化 */
+#chat-container .user-msg {
+    justify-content: flex-end;
+}
+#chat-container .user-msg .msg-content {
+    background-color: #DC2626;
+    color: white;
+}
+#chat-container .ai-msg .msg-content {
+    background-color: #F3F4F6;
+    color: #1F2937;
+}
+/* 加载动画 */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+/* 响应式适配 */
+@media (max-width: 768px) {
+    #chat-container .msg-content {
+        max-width: 90%;
+    }
+}
+/* 输入框防抖 */
+#chat-input {
+    transition: border-color 0.2s ease;
+}
+/* 按钮禁用状态 */
+button:disabled {
+    background-color: #991B1B;
+    cursor: not-allowed;
+}
