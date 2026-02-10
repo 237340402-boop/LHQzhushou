@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>零花黔全能助手</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <!-- 统一的 Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#E53E3E',
+                        secondary: '#ED8936',
+                        dark: '#2D3748',
+                        light: '#F7FAFC',
+                        gray: {
+                            medium: '#718096'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .glass-effect {
+                @apply bg-white bg-opacity-80 backdrop-blur-md;
+            }
+            .card-hover {
+                @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+            }
+            .btn-primary {
+                @apply bg-primary text-white px-4 py-2 rounded-md hover:bg-opacity-90 transition-all;
+            }
+            .btn-secondary {
+                @apply border border-primary text-primary px-4 py-2 rounded-md hover:bg-primary hover:text-white transition-all;
+            }
+            .input-primary {
+                @apply border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <div class="flex h-screen overflow-hidden">
+        <!-- 侧边导航栏 -->
+        <aside class="w-64 bg-white shadow-md z-10 hidden md:block">
+            <div class="p-4 flex items-center border-b">
+                <img src="https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/bd4d39a8e52b4efc874aaf74bfa58547~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026021011471209597860B90FD229AF0D&rrcfp=f06b921b&x-expires=1773287272&x-signature=KmGkhIpaRP0PtIkADY60zNHauo8%3D" alt="零花黔全能助手" class="h-10 w-auto">
+                <h1 class="ml-2 text-xl font-bold text-primary">零花黔全能助手</h1>
+            </div>
+            <nav class="mt-6">
+                <ul>
+                    <li class="mb-2">
+                        <a href="#dashboard" class="flex items-center px-6 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors nav-link active" data-target="dashboard">
+                            <i class="fa fa-tachometer w-5 text-center mr-3"></i>
+                            <span>工作台</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#data-analysis" class="flex items-center px-6 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors nav-link" data-target="data-analysis">
+                            <i class="fa fa-bar-chart w-5 text-center mr-3"></i>
+                            <span>数据洞察</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#content-creation" class="flex items-center px-6 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors nav-link" data-target="content-creation">
+                            <i class="fa fa-pencil w-5 text-center mr-3"></i>
+                            <span>内容创作</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#knowledge-base" class="flex items-center px-6 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors nav-link" data-target="knowledge-base">
+                            <i class="fa fa-book w-5 text-center mr-3"></i>
+                            <span>知识库</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#ai-assistant" class="flex items-center px-6 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors nav-link" data-target="ai-assistant">
+                            <i class="fa fa-robot w-5 text-center mr-3"></i>
+                            <span>AI助手</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#image-generation" class="flex items-center px-6 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors nav-link" data-target="image-generation">
+                            <i class="fa fa-image w-5 text-center mr-3"></i>
+                            <span>图片生成</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#settings" class="flex items-center px-6 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors nav-link" data-target="settings">
+                            <i class="fa fa-cog w-5 text-center mr-3"></i>
+                            <span>设置</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="absolute bottom-0 w-64 p-4 border-t">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium">企业用户</p>
+                        <p class="text-xs text-gray-500">高级版</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 移动端导航按钮 -->
+        <div class="md:hidden fixed bottom-4 right-4 z-50">
+            <button id="mobile-nav-toggle" class="bg-primary text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- 移动端导航菜单 -->
+        <div id="mobile-nav" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-40 hidden md:hidden">
+            <div class="bg-white w-64 h-full shadow-lg transform transition-transform">
+                <div class="p-4 flex items-center justify-between border-b">
+                    <div class="flex items-center">
+                        <img src="https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/bd4d39a8e52b4efc874aaf74bfa58547~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026021011471209597860B90FD229AF0D&rrcfp=f06b921b&x-expires=1773287272&x-signature=KmGkhIpaRP0PtIkADY60zNHauo8%3D" alt="零花黔全能助手" class="h-8 w-auto">
+                        <h1 class="ml-2 text-lg font-bold text-primary">零花黔全能助手</h1>
+                    </div>
+                    <button id="mobile-nav-close" class="text-gray-500">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+                <nav class="mt-4">
+                    <ul>
+                        <li class="mb-2">
+                            <a href="#dashboard" class="flex items-center px-6 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors mobile-nav-link" data-target="dashboard">
+                                <i class="fa fa-tachometer w-5 text-center mr-3"></i>
+                                <span>工作台</span>
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#data-analysis" class="flex items-center px-6 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors mobile-nav-link" data-target="data-analysis">
+                                <i class="fa fa-bar-chart w-5 text-center mr-3"></i>
+                                <span>数据洞察</span>
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#content-creation" class="flex items-center px-6 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors mobile-nav-link" data-target="content-creation">
+                                <i class="fa fa-pencil w-5 text-center mr-3"></i>
+                                <span>内容创作</span>
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#knowledge-base" class="flex items-center px-6 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors mobile-nav-link" data-target="knowledge-base">
+                                <i class="fa fa-book w-5 text-center mr-3"></i>
+                                <span>知识库</span>
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#ai-assistant" class="flex items-center px-6 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors mobile-nav-link" data-target="ai-assistant">
+                                <i class="fa fa-robot w-5 text-center mr-3"></i>
+                                <span>AI助手</span>
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#image-generation" class="flex items-center px-6 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors mobile-nav-link" data-target="image-generation">
+                                <i class="fa fa-image w-5 text-center mr-3"></i>
+                                <span>图片生成</span>
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#settings" class="flex items-center px-6 py-3 text-gray-700 hover:bg-primary hover:text-white transition-colors mobile-nav-link" data-target="settings">
+                                <i class="fa fa-cog w-5 text-center mr-3"></i>
+                                <span>设置</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- 主内容区域 -->
+        <main class="flex-1 overflow-y-auto bg-gray-50">
+            <!-- 顶部搜索栏 -->
+            <header class="bg-white shadow-sm">
+                <div class="flex items-center justify-between p-4">
+                    <div class="relative w-full max-w-md">
+                        <input type="text" placeholder="搜索知识、数据或功能..." class="w-full pl-10 pr-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <i class="fa fa-search absolute left-3 top-3 text-gray-400"></i>
+                    </div>
+                    <div class="flex items-center">
+                        <button class="p-2 rounded-full hover:bg-gray-100 mr-2">
+                            <i class="fa fa-bell text-gray-600"></i>
+                        </button>
+                        <button class="p-2 rounded-full hover:bg-gray-100">
+                            <i class="fa fa-question-circle text-gray-600"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 内容区域 -->
+            <div class="p-6">
+                <!-- 工作台 -->
+                <section id="dashboard" class="page-section active">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">工作台</h2>
+                    
+                    <!-- 快捷功能卡片 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-white rounded-lg shadow p-6 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+                                    <i class="fa fa-bar-chart text-primary text-xl"></i>
+                                </div>
+                                <h3 class="ml-4 text-lg font-semibold text-gray-800">数据洞察</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">实时数据搜集、分析与可视化</p>
+                            <button class="btn-primary w-full" onclick="navigateTo('data-analysis')">开始分析</button>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow p-6 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+                                    <i class="fa fa-pencil text-primary text-xl"></i>
+                                </div>
+                                <h3 class="ml-4 text-lg font-semibold text-gray-800">内容创作</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">文案、PPT、视频剪辑一站式创作</p>
+                            <button class="btn-primary w-full" onclick="navigateTo('content-creation')">开始创作</button>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow p-6 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+                                    <i class="fa fa-book text-primary text-xl"></i>
+                                </div>
+                                <h3 class="ml-4 text-lg font-semibold text-gray-800">知识库</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">团队专属知识库，智能更新优化</p>
+                            <button class="btn-primary w-full" onclick="navigateTo('knowledge-base')">查看知识</button>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow p-6 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+                                    <i class="fa fa-robot text-primary text-xl"></i>
+                                </div>
+                                <h3 class="ml-4 text-lg font-semibold text-gray-800">AI助手</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">智能问答、方案评估与优化</p>
+                            <button class="btn-primary w-full" onclick="navigateTo('ai-assistant')">开始对话</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 最近活动 -->
+                    <div class="bg-white rounded-lg shadow mb-8">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-semibold text-gray-800">最近活动</h3>
+                        </div>
+                        <div class="divide-y">
+                            <div class="p-4 flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+                                    <i class="fa fa-file-text text-primary"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <p class="text-gray-800">生成了新的营销方案</p>
+                                    <p class="text-sm text-gray-500">2小时前</p>
+                                </div>
+                                <div class="ml-auto">
+                                    <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">已完成</span>
+                                </div>
+                            </div>
+                            <div class="p-4 flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+                                    <i class="fa fa-bar-chart text-primary"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <p class="text-gray-800">分析了销售数据</p>
+                                    <p class="text-sm text-gray-500">昨天</p>
+                                </div>
+                                <div class="ml-auto">
+                                    <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">已完成</span>
+                                </div>
+                            </div>
+                            <div class="p-4 flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+                                    <i class="fa fa-image text-primary"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <p class="text-gray-800">生成了5张营销图片</p>
+                                    <p class="text-sm text-gray-500">2天前</p>
+                                </div>
+                                <div class="ml-auto">
+                                    <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">已完成</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 知识更新提示 -->
+                    <div class="bg-white rounded-lg shadow">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-semibold text-gray-800">知识更新提示</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                                    <i class="fa fa-lightbulb-o text-primary"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <p class="text-gray-800 mb-2">系统检测到您的知识库有3项内容需要更新，包括：</p>
+                                    <ul class="list-disc list-inside text-gray-600 mb-4">
+                                        <li>抖音最新算法规则（2025年6月更新）</li>
+                                        <li>微信小程序运营策略</li>
+                                        <li>自助洗车行业数据分析</li>
+                                    </ul>
+                                    <button class="btn-primary">立即更新知识库</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 数据洞察 -->
+                <section id="data-analysis" class="page-section hidden">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">数据洞察</h2>
+                    
+                    <!-- 数据搜索与筛选 -->
+                    <div class="bg-white rounded-lg shadow p-6 mb-8">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">数据搜索与筛选</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-gray-700 text-sm font-medium mb-2">数据类型</label>
+                                <select class="input-primary w-full">
+                                    <option>销售数据</option>
+                                    <option>用户行为</option>
+                                    <option>市场趋势</option>
+                                    <option>竞争对手</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 text-sm font-medium mb-2">时间范围</label>
+                                <select class="input-primary w-full">
+                                    <option>最近7天</option>
+                                    <option>最近30天</option>
+                                    <option>最近90天</option>
+                                    <option>今年</option>
+                                    <option>自定义</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 text-sm font-medium mb-2">关键词</label>
+                                <input type="text" placeholder="输入关键词..." class="input-primary w-full">
+                            </div>
+                        </div>
+                        <div class="mt-6 flex justify-end">
+                            <button class="btn-secondary mr-3">重置</button>
+                            <button class="btn-primary" id="search-data-btn">搜索数据</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 数据可视化 -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">销售趋势</h3>
+                            <div class="h-80">
+                                <canvas id="salesChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">用户分布</h3>
+                            <div class="h-80">
+                                <canvas id="userChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 数据分析结果 -->
+                    <div class="bg-white rounded-lg shadow mb-8">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-semibold text-gray-800">数据分析结果</h3>
+                        </div>
+                        <div class="p-6">
+                            <div id="data-loading" class="hidden">
+                                <div class="flex justify-center items-center py-8">
+                                    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                                    <span class="ml-3 text-gray-600">正在分析数据...</span>
+                                </div>
+                            </div>
+                            <div id="data-results">
+                                <div class="mb-6">
+                                    <h4 class="text-md font-semibold text-gray-800 mb-2">关键发现</h4>
+                                    <ul class="list-disc list-inside text-gray-600">
+                                        <li>销售额在过去30天增长了15.3%，主要来自新客户</li>
+                                        <li>移动端用户占比达到78%，较上季度增长12%</li>
+                                        <li>18-24岁年龄段用户活跃度最高，但转化率较低</li>
+                                        <li>周末销售高峰比工作日高出约23%</li>
+                                    </ul>
+                                </div>
+                                <div class="mb-6">
+                                    <h4 class="text-md font-semibold text-gray-800 mb-2">建议行动</h4>
+                                    <ul class="list-disc list-inside text-gray-600">
+                                        <li>针对18-24岁用户群体优化转化路径</li>
+                                        <li>增加移动端营销投入，特别是周末促销活动</li>
+                                        <li>加强新客户留存策略，提高复购率</li>
+                                    </ul>
+                                </div>
+                                <div class="flex justify-end">
+                                    <button class="btn-primary" id="generate-report-btn">生成详细报告</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 方案生成 -->
+                    <div class="bg-white rounded-lg shadow">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-semibold text-gray-800">运营方案生成</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2">方案类型</label>
+                                <select class="input-primary w-full" id="plan-type">
+                                    <option>自助洗车厂推广方案</option>
+                                    <option>微信小程序双向引流方案</option>
+                                    <option>短视频营销方案</option>
+                                    <option>会员转化方案</option>
+                                    <option>自定义方案</option>
+                                </select>
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2">目标</label>
+                                <textarea class="input-primary w-full h-32" placeholder="请描述您的具体目标...例如：提高自助洗车厂的日客流量，增加会员注册量等"></textarea>
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2">预算</label>
+                                <input type="text" placeholder="输入预算金额..." class="input-primary w-full">
+                            </div>
+                            <div class="flex justify-end">
+                                <button class="btn-primary" id="generate-plan-btn">生成方案</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 内容创作 -->
+                <section id="content-creation" class="page-section hidden">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">内容创作中心</h2>
+                    
+                    <!-- 创作类型选择 -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white rounded-lg shadow p-6 card-hover cursor-pointer" onclick="showContentTab('copywriting')">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+                                    <i class="fa fa-file-text text-primary text-xl"></i>
+                                </div>
+                                <h3 class="ml-4 text-lg font-semibold text-gray-800">文案编写</h3>
+                            </div>
+                            <p class="text-gray-600">短视频/直播引流文案，结合当下爆款视频逻辑</p>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow p-6 card-hover cursor-pointer" onclick="showContentTab('ppt')">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+                                    <i class="fa fa-file-powerpoint-o text-primary text-xl"></i>
+                                </div>
+                                <h3 class="ml-4 text-lg font-semibold text-gray-800">PPT制作</h3>
+                            </div>
+                            <p class="text-gray-600">生成完整大纲和每页核心内容，快速制作专业PPT</p>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow p-6 card-hover cursor-pointer" onclick="showContentTab('video')">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+                                    <i class="fa fa-video-camera text-primary text-xl"></i>
+                                </div>
+                                <h3 class="ml-4 text-lg font-semibold text-gray-800">视频剪辑</h3>
+                            </div>
+                            <p class="text-gray-600">简化的视频编辑功能，快速制作营销短视频</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 文案编写 -->
+                    <div id="copywriting-tab" class="content-tab">
+                        <div class="bg-white rounded-lg shadow mb-8">
+                            <div class="p-6 border-b">
+                                <h3 class="text-lg font-semibold text-gray-800">短视频/直播引流文案</h3>
+                            </div>
+                            <div class="p-6">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                    <div>
+                                        <label class="block text-gray-700 text-sm font-medium mb-2">平台</label>
+                                        <select class="input-primary w-full">
+                                            <option>抖音</option>
+                                            <option>快手</option>
+                                            <option>小红书</option>
+                                            <option>视频号</option>
+                                            <option>其他</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 text-sm font-medium mb-2">内容类型</label>
+                                        <select class="input-primary w-full">
+                                            <option>产品介绍</option>
+                                            <option>教程教学</option>
+                                            <option>故事叙述</option>
+                                            <option>搞笑娱乐</option>
+                                            <option>其他</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-6">
+                                    <label class="block text-gray-700 text-sm font-medium mb-2">产品/服务描述</label>
+                                    <textarea class="input-primary w-full h-32" placeholder="请详细描述您的产品或服务特点、优势、目标受众等..."></textarea>
+                                </div>
+                                <div class="mb-6">
+                                    <label class="block text-gray-700 text-sm font-medium mb-2">关键词/热点</label>
+                                    <input type="text" placeholder="输入相关关键词或热点话题，用逗号分隔" class="input-primary w-full">
+                                </div>
+                                <div class="flex justify-end">
+                                    <button class="btn-primary" id="generate-copy-btn">生成文案</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 文案结果 -->
+                        <div class="bg-white rounded-lg shadow">
+                            <div class="p-6 border-b">
+                                <h3 class="text-lg font-semibold text-gray-800">生成结果</h3>
+                            </div>
+                            <div class="p-6">
+                                <div id="copy-loading" class="hidden">
+                                    <div class="flex justify-center items-center py-8">
+                                        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                                        <span class="ml-3 text-gray-600">正在生成文案...</span>
+                                    </div>
+                                </div>
+                                <div id="copy-results">
+                                    <div class="mb-6">
+                                        <h4 class="text-md font-semibold text-gray-800 mb-2">标题建议</h4>
+                                        <ul class="list-disc list-inside text-gray-600">
+                                            <li>"揭秘！这家自助洗车店让90%的车主都上瘾了"</li>
+                                            <li>"3分钟学会，让你的爱车焕然一新的秘诀"</li>
+                                            <li>"洗车也能这么智能？看完我惊呆了！"</li>
+                                        </ul>
+                                    </div>
+                                    <div class="mb-6">
+                                        <h4 class="text-md font-semibold text-gray-800 mb-2">开场白</h4>
+                                        <p class="text-gray-600">
+                                            "大家好！今天我要给你们介绍一个让我彻底抛弃传统洗车店的神奇发明！每次洗车排队2小时，价格还越来越贵的痛，我相信很多车主都懂...直到我发现了这家自助洗车厂，简直是洗车界的革命！"
+                                        </p>
+                                    </div>
+                                    <div class="mb-6">
+                                        <h4 class="text-md font-semibold text-gray-800 mb-2">主体内容</h4>
+                                        <p class="text-gray-600">
+                                            "首先，这里完全不用排队！随到随洗，全程自助操作，简单到我70岁的老妈都会用。其次，价格只要传统洗车店的三分之一，却能洗得更干净！高压水枪、泡沫、吸尘、抛光一站式搞定。最绝的是，他们家还有智能水循环系统，既环保又省水，洗一次车只需要传统洗车的1/5水量..."
+                                        </p>
+                                    </div>
+                                    <div class="mb-6">
+                                        <h4 class="text-md font-semibold text-gray-800 mb-2">结尾呼吁</h4>
+                                        <p class="text-gray-600">
+                                            "现在点击评论区第一条链接，即可领取首次洗车5折优惠！前100名还送价值50元的洗车套装！地址就在XX路XX号，记得带上你的爱车来体验洗车新方式！我们下期再见！"
+                                        </p>
+                                    </div>
+                                    <div class="flex justify-end">
+                                        <button class="btn-secondary mr-3">重新生成</button>
+                                        <button class="btn-primary">复制文案</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PPT制作 -->
+                    <div id="ppt-tab" class="content-tab hidden">
+                        <div class="bg-white rounded-lg shadow mb-8">
+                            <div class="p-6 border-b">
+                                <h3 class="text-lg font-semibold text-gray-800">PPT自动生成</h3>
+                            </div>
+                            <div class="p-6">
+                                <div class="mb-6">
+                                    <label class="block text-gray-700 text-sm font-medium mb-2">PPT主题</label>
+                                    <input type="text" placeholder="输入PPT主题..." class="input-primary w-full">
+                                </div>
+                                <div class="mb-6">
+                                    <label class="block text-gray-700 text-sm font-medium mb-2">内容概要</label>
+                                    <textarea class="input-primary w-full h-32" placeholder="请描述PPT需要包含的主要内容和关键点..."></textarea>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                    <div>
+                                        <label class="block text-gray-700 text-sm font-medium mb-2">目标受众</label>
+                                        <select class="input-primary w-full">
+                                            <option>管理层</option>
+                                            <option>客户</option>
+                                            <option>同事/团队</option>
+                                            <option>投资者</option>
+                                            <option>其他</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 text-sm font-medium mb-2">风格</label>
+                                        <select class="input-primary w-full">
+                                            <option>商务专业</option>
+                                            <option>创意活泼</option>
+                                            <option>简约现代</option>
+                                            <option>数据导向</option>
+                                            <option>其他</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end">
+                                    <button class="btn-primary" id="generate-ppt-btn">生成PPT大纲</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- PPT结果 -->
+                        <div class="bg-white rounded-lg shadow">
+                            <div class="p-6 border-b">
+                                <h3 class="text-lg font-semibold text-gray-800">PPT大纲</h3>
+                            </div>
+                            <div class="p-6">
+                                <div id="ppt-loading" class="hidden">
+                                    <div class="flex justify-center items-center py-8">
+                                        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                                        <span class="ml-3 text-gray-600">正在生成PPT大纲...</span>
+                                    </div>
+                                </div>
+                                <div id="ppt-results">
+                                    <div class="mb-6">
+                                        <h4 class="text-md font-semibold text-gray-800 mb-2">幻灯片1：封面</h4>
+                                        <p class="text-gray-600">标题：《自助洗车厂创新营销方案》</p>
+                                        <p class="text-gray-600">副标题：提升客流量与用户忠诚度的策略</p>
+                                        <p class="text-gray-600">日期与演讲者信息</p>
+                                    </div>
+                                    <div class="mb-6">
+                                        <h4 class="text-md font-semibold text-gray-800 mb-2">幻灯片2：市场分析</h4>
+                                        <p class="text-gray-600">• 洗车行业现状与趋势</p>
+                                        <p class="text-gray-600">• 目标客户群体分析</p>
+                                        <p class="text-gray-600">• 竞争优势与差异化定位</p>
+                                    </div>
+                                    <div class="mb-6">
+                                        <h4 class="text-md font-semibold text-gray-800 mb-2">幻灯片3：营销目标</h4>
+                                        <p class="text-gray-600">• 3个月内提升客流量30%</p>
+                                        <p class="text-gray-600">• 会员注册量增长50%</p>
+                                        <p class="text-gray-600">• 客单价提升15%</p>
+                                    </div>
+                                    <div class="mb-6">
+                                        <h4 class="text-md font-semibold text-gray-800 mb-2">幻灯片4-8：营销策略详情</h4>
+                                        <p class="text-gray-600">（详细的营销策略内容）</p>
+                                    </div>
+                                    <div class="mb-6">
+                                        <h4 class="text-md font-semibold text-gray-800 mb-2">幻灯片9：预算规划</h4>
+                                        <p class="text-gray-600">（各类营销活动的预算分配）</p>
+                                    </div>
+                                    <div class="mb-6">
+                                        <h4 class="text-md font-semibold text-gray-800 mb-2">幻灯片10：执行时间表</h4>
+                                        <p class="text-gray-600">（营销活动的时间安排）</p>
+                                    </div>
+                                    <div class="mb-6">
+                                        <h4 class="text-md font-semibold text-gray-800 mb-2">幻灯片11：效果评估指标</h4>
+                                        <p class="text-gray-600">（KPI设定与评估方法）</p>
+                                    </div>
+                                    <div class="mb-6">
+                                        <h4 class="text-md font-semibold text-gray-800 mb-2">幻灯片12：总结与问答</h4>
+                                        <p class="text-gray-600">（总结要点与联系方式）</p>
+                                    </div>
+                                    <div class="flex justify-end">
+                                        <button class="btn-secondary mr-3">修改大纲</button>
+                                        <button class="btn-primary">生成完整PPT</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 视频剪辑 -->
+                    <div id="video-tab" class="content-tab hidden">
+                        <div class="bg-white rounded-lg shadow mb-8">
+                            <div class="p-6 border-b">
+                                <h3 class="text-lg font-semibold text-gray-800">视频剪辑</h3>
+                            </div>
+                            <div class="p-6">
+                                <div class="mb-6">
+                                    <label class="block text-gray-700 text-sm font-medium mb-2">上传视频</label>
+                                    <div class="border-2 border-dashed border-gray-300 rounded-md p-6 text-center">
+                                        <i class="fa fa-cloud-upload text-4xl text-gray-400 mb-2"></i>
+                                        <p class="text-gray-600 mb-2">点击或拖拽文件到此处上传</p>
+                                        <p class="text-gray-500 text-sm">支持 MP4, MOV, AVI 格式，最大 500MB</p>
+                                        <button class="mt-4 btn-secondary">选择文件</button>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                    <div>
+                                        <label class="block text-gray-700 text-sm font-medium mb-2">视频类型</label>
+                                        <select class="input-primary w-full">
+                                            <option>产品宣传</option>
+                                            <option>教程教学</option>
+                                            <option>活动记录</option>
+                                            <option>其他</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 text-sm font-medium mb-2">目标时长</label>
+                                        <select class="input-primary w-full">
+                                            <option>15秒以内</option>
+                                            <option>15-30秒</option>
+                                            <option>30-60秒</option>
+                                            <option>1-3分钟</option>
+                                            <option>自定义</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-6">
+                                    <label class="block text-gray-700 text-sm font-medium mb-2">剪辑要求</label>
+                                    <textarea class="input-primary w-full h-32" placeholder="请描述您的剪辑要求，如重点内容、风格、转场效果等..."></textarea>
+                                </div>
+                                <div class="flex justify-end">
+                                    <button class="btn-primary" id="process-video-btn">处理视频</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 视频编辑界面 -->
+                        <div class="bg-white rounded-lg shadow">
+                            <div class="p-6 border-b">
+                                <h3 class="text-lg font-semibold text-gray-800">视频编辑</h3>
+                            </div>
+                            <div class="p-6">
+                                <div class="mb-6">
+                                    <div class="bg-gray-100 rounded-lg h-80 flex items-center justify-center">
+                                        <p class="text-gray-500">视频预览区域</p>
+                                    </div>
+                                </div>
+                                <div class="mb-6">
+                                    <div class="bg-gray-100 rounded-lg p-4 h-24 flex items-center justify-center">
+                                        <p class="text-gray-500">时间轴编辑区域</p>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                    <div>
+                                        <label class="block text-gray-700 text-sm font-medium mb-2">添加音乐</label>
+                                        <select class="input-primary w-full">
+                                            <option>无音乐</option>
+                                            <option>欢快轻松</option>
+                                            <option>激情动感</option>
+                                            <option>温馨抒情</option>
+                                            <option>上传自定义音乐</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 text-sm font-medium mb-2">添加文字</label>
+                                        <input type="text" placeholder="输入要添加的文字..." class="input-primary w-full">
+                                    </div>
+                                </div>
+                                <div class="flex justify-end">
+                                    <button class="btn-secondary mr-3">重置</button>
+                                    <button class="btn-primary">导出视频</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 知识库 -->
+                <section id="knowledge-base" class="page-section hidden">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">知识库</h2>
+                    
+                    <!-- 知识搜索 -->
+                    <div class="bg-white rounded-lg shadow p-6 mb-8">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4 md:mb-0">知识搜索</h3>
+                            <div class="relative w-full md:w-1/3">
+                                <input type="text" placeholder="搜索知识库..." class="w-full pl-10 pr-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                <i class="fa fa-search absolute left-3 top-3 text-gray-400"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 知识分类 -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-white rounded-lg shadow p-6 card-hover cursor-pointer">
+                            <div class="flex items-center mb-4">
+                                <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+                                    <i class="fa fa-line-chart text-primary"></i>
+                                </div>
+                                <h3 class="ml-3 text-lg font-semibold text-gray-800">营销知识</h3>
+                            </div>
+                            <p class="text-gray-600 text-sm">包含营销策略、案例分析、市场趋势等内容</p>
+                            <div class="mt-4 text-right">
+                                <span class="text-primary text-sm">128 篇文章</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow p-6 card-hover cursor-pointer">
+                            <div class="flex items-center mb-4">
+                                <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+                                    <i class="fa fa-code text-primary"></i>
+                                </div>
+                                <h3 class="ml-3 text-lg font-semibold text-gray-800">技术文档</h3>
+                            </div>
+                            <p class="text-gray-600 text-sm">包含产品使用指南、技术教程、常见问题等</p>
+                            <div class="mt-4 text-right">
+                                <span class="text-primary text-sm">86 篇文章</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow p-6 card-hover cursor-pointer">
+                            <div class="flex items-center mb-4">
+                                <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+                                    <i class="fa fa-users text-primary"></i>
+                                </div>
+                                <h3 class="ml-3 text-lg font-semibold text-gray-800">行业洞察</h3>
+                            </div>
+                            <p class="text-gray-600 text-sm">包含行业报告、竞争对手分析、发展趋势等</p>
+                            <div class="mt-4 text-right">
+                                <span class="text-primary text-sm">54 篇文章</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow p-6 card-hover cursor-pointer">
+                            <div class="flex items-center mb-4">
+                                <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+                                    <i class="fa fa-lightbulb-o text-primary"></i>
+                                </div>
+                                <h3 class="ml-3 text-lg font-semibold text-gray-800">创意灵感</h3>
+                            </div>
+                            <p class="text-gray-600 text-sm">包含创意案例、灵感来源、创新方法等</p>
+                            <div class="mt-4 text-right">
+                                <span class="text-primary text-sm">92 篇文章</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 最近更新 -->
+                    <div class="bg-white rounded-lg shadow mb-8">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-semibold text-gray-800">最近更新</h3>
+                        </div>
+                        <div class="divide-y">
+                            <div class="p-4 hover:bg-gray-50">
+                                <div class="flex justify-between items-start">
+                                    <h4 class="text-md font-medium text-gray-800">2025年抖音最新算法解析与应用策略</h4>
+                                    <span class="px-2 py-1 bg-red-100 text-primary text-xs rounded-full">营销知识</span>
+                                </div>
+                                <p class="text-gray-600 mt-2">深入分析抖音最新算法规则，提供切实可行的内容优化策略...</p>
+                                <div class="flex justify-between items-center mt-3">
+                                    <span class="text-sm text-gray-500">更新于 2025-06-10</span>
+                                    <button class="text-primary text-sm">阅读全文</button>
+                                </div>
+                            </div>
+                            <div class="p-4 hover:bg-gray-50">
+                                <div class="flex justify-between items-start">
+                                    <h4 class="text-md font-medium text-gray-800">微信小程序双向引流方案详解</h4>
+                                    <span class="px-2 py-1 bg-red-100 text-primary text-xs rounded-full">营销知识</span>
+                                </div>
+                                <p class="text-gray-600 mt-2">详解如何通过微信小程序实现线上线下双向引流，提升用户转化率...</p>
+                                <div class="flex justify-between items-center mt-3">
+                                    <span class="text-sm text-gray-500">更新于 2025-06-08</span>
+                                    <button class="text-primary text-sm">阅读全文</button>
+                                </div>
+                            </div>
+                            <div class="p-4 hover:bg-gray-50">
+                                <div class="flex justify-between items-start">
+                                    <h4 class="text-md font-medium text-gray-800">自助洗车行业2025年市场分析报告</h4>
+                                    <span class="px-2 py-1 bg-red-100 text-primary text-xs rounded-full">行业洞察</span>
+                                </div>
+                                <p class="text-gray-600 mt-2">全面分析自助洗车行业的市场规模、竞争格局、发展趋势及投资机会...</p>
+                                <div class="flex justify-between items-center mt-3">
+                                    <span class="text-sm text-gray-500">更新于 2025-06-05</span>
+                                    <button class="text-primary text-sm">阅读全文</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 知识贡献 -->
+                    <div class="bg-white rounded-lg shadow">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-semibold text-gray-800">知识贡献</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2">标题</label>
+                                <input type="text" placeholder="输入知识标题..." class="input-primary w-full">
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2">分类</label>
+                                <select class="input-primary w-full">
+                                    <option>营销知识</option>
+                                    <option>技术文档</option>
+                                    <option>行业洞察</option>
+                                    <option>创意灵感</option>
+                                    <option>其他</option>
+                                </select>
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2">内容</label>
+                                <textarea class="input-primary w-full h-64" placeholder="输入知识内容..."></textarea>
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2">上传附件（可选）</label>
+                                <div class="border-2 border-dashed border-gray-300 rounded-md p-4 text-center">
+                                    <i class="fa fa-paperclip text-2xl text-gray-400 mb-2"></i>
+                                    <p class="text-gray-600">点击或拖拽文件到此处上传</p>
+                                    <p class="text-gray-500 text-sm">支持 PDF, DOC, DOCX, PPT, PPTX 格式</p>
+                                </div>
+                            </div>
+                            <div class="flex justify-end">
+                                <button class="btn-secondary mr-3">预览</button>
+                                <button class="btn-primary">提交</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- AI助手 -->
+                <section id="ai-assistant" class="page-section hidden">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">AI智能助手</h2>
+                    
+                    <!-- 对话界面 -->
+                    <div class="bg-white rounded-lg shadow mb-8">
+                        <div class="p-6 border-b flex justify-between items-center">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+                                    <i class="fa fa-robot text-primary"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="text-lg font-semibold text-gray-800">零花黔助手</h3>
+                                    <p class="text-xs text-green-600">在线</p>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="p-2 rounded-full hover:bg-gray-100">
+                                    <i class="fa fa-history text-gray-600"></i>
+                                </button>
+                                <button class="p-2 rounded-full hover:bg-gray-100 ml-2">
+                                    <i class="fa fa-cog text-gray-600"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="h-96 overflow-y-auto p-6" id="chat-messages">
+                            <div class="flex mb-6">
+                                <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                                    <i class="fa fa-robot text-primary text-sm"></i>
+                                </div>
+                                <div class="ml-3 bg-gray-100 rounded-lg p-3 max-w-3/4">
+                                    <p class="text-gray-800">您好！我是零花黔全能助手，很高兴为您服务。请问有什么可以帮助您的吗？</p>
+                                </div>
+                            </div>
+                            <div class="flex justify-end mb-6">
+                                <div class="mr-3 bg-primary rounded-lg p-3 max-w-3/4">
+                                    <p class="text-white">我需要为我的自助洗车店制定一个营销方案，有什么建议吗？</p>
+                                </div>
+                                <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center flex-shrink-0">
+                                    <i class="fa fa-user text-gray-600 text-sm"></i>
+                                </div>
+                            </div>
+                            <div class="flex mb-6">
+                                <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                                    <i class="fa fa-robot text-primary text-sm"></i>
+                                </div>
+                                <div class="ml-3 bg-gray-100 rounded-lg p-3 max-w-3/4">
+                                    <p class="text-gray-800">为您的自助洗车店制定营销方案，我可以提供一些建议。首先，我们需要考虑几个关键因素：</p>
+                                    <ol class="list-decimal list-inside mt-2 text-gray-800">
+                                        <li>目标客户群体：是针对小区居民、商业区用户还是特定车型车主？</li>
+                                        <li>地理位置优势：您的店铺位置有什么特点？周边有哪些潜在客户？</li>
+                                        <li>价格策略：您的定价相比周边竞争对手有什么优势？</li>
+                                        <li>特色服务：您是否提供一些差异化服务，如内饰清洁、打蜡等？</li>
+                                    </ol>
+                                    <p class="mt-2 text-gray-800">有了这些信息，我可以为您提供更有针对性的营销方案建议。</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6 border-t">
+                            <div class="flex">
+                                <input type="text" placeholder="输入您的问题..." class="input-primary flex-1" id="chat-input">
+                                <button class="btn-primary ml-3" id="send-message-btn">发送</button>
+                            </div>
+                            <div class="mt-4 flex flex-wrap gap-2">
+                                <button class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200">如何提升客户留存率？</button>
+                                <button class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200">微信小程序引流方案</button>
+                                <button class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200">会员体系设计</button>
+                                <button class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200">季节性促销活动</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 方案评估 -->
+                    <div class="bg-white rounded-lg shadow">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-semibold text-gray-800">方案评估</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2">方案内容</label>
+                                <textarea class="input-primary w-full h-32" placeholder="请输入您想要评估的方案内容..."></textarea>
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2">评估维度</label>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="dimension1" class="mr-2" checked>
+                                        <label for="dimension1" class="text-gray-700">能落地</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="dimension2" class="mr-2" checked>
+                                        <label for="dimension2" class="text-gray-700">成本低</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="dimension3" class="mr-2" checked>
+                                        <label for="dimension3" class="text-gray-700">效果好</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="dimension4" class="mr-2" checked>
+                                        <label for="dimension4" class="text-gray-700">贴合实际</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="dimension5" class="mr-2" checked>
+                                        <label for="dimension5" class="text-gray-700">有明确数据目标</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-end">
+                                <button class="btn-primary" id="evaluate-plan-btn">开始评估</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 图片生成 -->
+                <section id="image-generation" class="page-section hidden">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">图片生成</h2>
+                    
+                    <!-- 生成设置 -->
+                    <div class="bg-white rounded-lg shadow p-6 mb-8">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">生成设置</h3>
+                        <div class="mb-6">
+                            <label class="block text-gray-700 text-sm font-medium mb-2">图片描述</label>
+                            <textarea class="input-primary w-full h-32" placeholder="请详细描述您想要生成的图片内容，包括主题、风格、颜色、构图等..."></textarea>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-gray-700 text-sm font-medium mb-2">图片尺寸</label>
+                                <select class="input-primary w-full">
+                                    <option>横版 (16:9)</option>
+                                    <option>竖版 (9:16)</option>
+                                    <option>方形 (1:1)</option>
+                                    <option>自定义</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 text-sm font-medium mb-2">图片风格</label>
+                                <select class="input-primary w-full">
+                                    <option>写实风格</option>
+                                    <option>卡通风格</option>
+                                    <option>插画风格</option>
+                                    <option>水彩画</option>
+                                    <option>油画</option>
+                                    <option>其他</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-gray-700 text-sm font-medium mb-2">用途</label>
+                                <select class="input-primary w-full">
+                                    <option>社交媒体</option>
+                                    <option>营销海报</option>
+                                    <option>产品展示</option>
+                                    <option>PPT配图</option>
+                                    <option>其他</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 text-sm font-medium mb-2">生成数量</label>
+                                <select class="input-primary w-full">
+                                    <option>1张</option>
+                                    <option>2张</option>
+                                    <option>3张</option>
+                                    <option>4张</option>
+                                    <option>5张</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex justify-end">
+                            <button class="btn-primary" id="generate-image-btn">生成图片</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 生成结果 -->
+                    <div class="bg-white rounded-lg shadow">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-semibold text-gray-800">生成结果</h3>
+                        </div>
+                        <div class="p-6">
+                            <div id="image-loading" class="hidden">
+                                <div class="flex justify-center items-center py-8">
+                                    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                                    <span class="ml-3 text-gray-600">正在生成图片...</span>
+                                </div>
+                            </div>
+                            <div id="image-results">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                    <div class="bg-gray-100 rounded-lg p-2">
+                                        <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/e87b3b6418a84989b4456bdd0cdaf51b~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026021011471209597860B90FD229AF0D&rrcfp=f06b921b&x-expires=1773287291&x-signature=G3%2FVAreFBo7QjYD8Qk9444ASTuA%3D" alt="生成图片示例" class="w-full h-auto rounded">
+                                        <div class="mt-2 flex justify-between">
+                                            <button class="text-primary text-sm">
+                                                <i class="fa fa-thumbs-up mr-1"></i> 喜欢
+                                            </button>
+                                            <button class="text-primary text-sm">
+                                                <i class="fa fa-download mr-1"></i> 下载
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gray-100 rounded-lg p-2">
+                                        <img src="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/ccdce897aa2e412f94fa691dc4b38e2b~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=2026021011471209597860B90FD229AF0D&rrcfp=f06b921b&x-expires=1773287283&x-signature=%2BfyR1KvBOmRpDf6pf2zAwGEbGVI%3D" alt="生成图片示例" class="w-full h-auto rounded">
+                                        <div class="mt-2 flex justify-between">
+                                            <button class="text-primary text-sm">
+                                                <i class="fa fa-thumbs-up mr-1"></i> 喜欢
+                                            </button>
+                                            <button class="text-primary text-sm">
+                                                <i class="fa fa-download mr-1"></i> 下载
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end">
+                                    <button class="btn-secondary mr-3">重新生成</button>
+                                    <button class="btn-primary">全部下载</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 设置 -->
+                <section id="settings" class="page-section hidden">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">设置</h2>
+                    
+                    <!-- 账户设置 -->
+                    <div class="bg-white rounded-lg shadow mb-8">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-semibold text-gray-800">账户设置</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center mb-6">
+                                <div class="w-20 h-20 rounded-full bg-red-100 flex items-center justify-center">
+                                    <i class="fa fa-user text-primary text-3xl"></i>
+                                </div>
+                                <div class="ml-6">
+                                    <h4 class="text-lg font-medium text-gray-800">企业用户</h4>
+                                    <p class="text-gray-600">高级版会员</p>
+                                    <button class="mt-2 text-primary text-sm">更换头像</button>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label class="block text-gray-700 text-sm font-medium mb-2">企业名称</label>
+                                    <input type="text" value="示例企业" class="input-primary w-full">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 text-sm font-medium mb-2">联系人</label>
+                                    <input type="text" value="张三" class="input-primary w-full">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 text-sm font-medium mb-2">电子邮箱</label>
+                                    <input type="email" value="example@company.com" class="input-primary w-full">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 text-sm font-medium mb-2">手机号码</label>
+                                    <input type="tel" value="138****1234" class="input-primary w-full">
+                                </div>
+                            </div>
+                            <div class="flex justify-end">
+                                <button class="btn-primary">保存更改</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 系统设置 -->
+                    <div class="bg-white rounded-lg shadow mb-8">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-semibold text-gray-800">系统设置</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2">语言</label>
+                                <select class="input-primary w-full">
+                                    <option>简体中文</option>
+                                    <option>English</option>
+                                </select>
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2">主题</label>
+                                <select class="input-primary w-full">
+                                    <option>默认主题</option>
+                                    <option>深色模式</option>
+                                    <option>自定义</option>
+                                </select>
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 text-sm font-medium mb-2">通知设置</label>
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-gray-700">系统通知</span>
+                                        <label class="switch">
+                                            <input type="checkbox" checked>
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-gray-700">知识库更新提醒</span>
+                                        <label class="switch">
+                                            <input type="checkbox" checked>
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-gray-700">营销活动推荐</span>
+                                        <label class="switch">
+                                            <input type="checkbox">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-end">
+                                <button class="btn-primary">保存设置</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 数据管理 -->
+                    <div class="bg-white rounded-lg shadow">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-semibold text-gray-800">数据管理</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="mb-6">
+                                <h4 class="text-md font-medium text-gray-800 mb-3">知识库数据</h4>
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-gray-600">自动更新知识库</span>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-gray-600">允许系统从对话中学习</span>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-600">定期清理过期数据</span>
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <h4 class="text-md font-medium text-gray-800 mb-3">数据导出</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-gray-700 text-sm font-medium mb-2">导出内容</label>
+                                        <select class="input-primary w-full">
+                                            <option>全部数据</option>
+                                            <option>仅知识库</option>
+                                            <option>仅分析报告</option>
+                                            <option>仅创作内容</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 text-sm font-medium mb-2">导出格式</label>
+                                        <select class="input-primary w-full">
+                                            <option>ZIP压缩包</option>
+                                            <option>PDF文档</option>
+                                            <option>Excel表格</option>
+                                            <option>Word文档</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <button class="btn-secondary">导出数据</button>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-md font-medium text-gray-800 mb-3">数据删除</h4>
+                                <p class="text-gray-600 mb-4">注意：删除数据后无法恢复，请谨慎操作。</p>
+                                <button class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-all">删除所有数据</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- 方案生成结果弹窗 -->
+    <div id="plan-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h3 class="text-lg font-semibold text-gray-800">自助洗车厂推广方案</h3>
+                <button id="close-plan-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div class="p-6">
+                <div class="mb-6">
+                    <h4 class="text-md font-semibold text-gray-800 mb-2">方案概述</h4>
+                    <p class="text-gray-600">本方案旨在通过多渠道营销和用户体验优化，提升自助洗车厂的客流量和用户忠诚度，预计3个月内可实现客流量提升30%，会员注册量增长50%。</p>
+                </div>
+                <div class="mb-6">
+                    <h4 class="text-md font-semibold text-gray-800 mb-2">营销策略</h4>
+                    <ul class="list-disc list-inside text-gray-600">
+                        <li><strong>微信小程序引流：</strong>开发简易洗车预约小程序，提供线上预约、会员积分、优惠券发放等功能</li>
+                        <li><strong>社区营销：</strong>与周边小区物业合作，开展"洗车日"活动，提供团购优惠</li>
+                        <li><strong>会员体系：</strong>设计分级会员制度，提供不同等级的折扣和增值服务</li>
+                        <li><strong>社交媒体宣传：</strong>制作洗车前后对比视频，在抖音、小红书等平台发布</li>
+                        <li><strong>跨界合作：</strong>与周边汽车美容、维修店合作，推出联合优惠套餐</li>
+                    </ul>
+                </div>
+                <div class="mb-6">
+                    <h4 class="text-md font-semibold text-gray-800 mb-2">执行时间表</h4>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead>
+                                <tr>
+                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">阶段</th>
+                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">时间</th>
+                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">主要任务</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">准备阶段</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">第1周</td>
+                                    <td class="px-6 py-4">小程序开发、会员体系设计、宣传物料准备</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">启动阶段</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">第2-3周</td>
+                                    <td class="px-6 py-4">线上线下宣传、社区活动开展、合作商家洽谈</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">执行阶段</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">第4-10周</td>
+                                    <td class="px-6 py-4">持续营销推广、用户反馈收集、服务优化</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">评估阶段</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">第11-12周</td>
+                                    <td class="px-6 py-4">数据分析、效果评估、方案调整</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <h4 class="text-md font-semibold text-gray-800 mb-2">预算规划</h4>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead>
+                                <tr>
+                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">项目</th>
+                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">预算</th>
+                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">占比</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">小程序开发</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">5,000元</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">25%</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">线上广告投放</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">6,000元</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">30%</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">线下活动物料</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">3,000元</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">15%</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">会员福利成本</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">4,000元</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">20%</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">其他费用</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">2,000元</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">10%</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap font-medium">总计</td>
+                                    <td class="px-6 py-4 whitespace-nowrap font-medium">20,000元</td>
+                                    <td class="px-6 py-4 whitespace-nowrap font-medium">100%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <h4 class="text-md font-semibold text-gray-800 mb-2">预期效果</h4>
+                    <ul class="list-disc list-inside text-gray-600">
+                        <li>客流量提升30%</li>
+                        <li>会员注册量增长50%</li>
+                        <li>客单价提升15%</li>
+                        <li>复购率提升25%</li>
+                        <li>社交媒体曝光量达到5万+</li>
+                    </ul>
+                </div>
+                <div class="flex justify-end">
+                    <button class="btn-secondary mr-3">导出方案</button>
+                    <button class="btn-primary">应用方案</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 报告生成结果弹窗 -->
+    <div id="report-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b flex justify-between items-center">
+                <h3 class="text-lg font-semibold text-gray-800">数据分析报告</h3>
+                <button id="close-report-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div class="p-6">
+                <div class="mb-6 text-center">
+                    <h2 class="text-xl font-bold text-gray-800">销售数据分析报告</h2>
+                    <p class="text-gray-600">2025年1月-6月</p>
+                </div>
+                <div class="mb-6">
+                    <h4 class="text-md font-semibold text-gray-800 mb-2">摘要</h4>
+                    <p class="text-gray-600">本报告分析了2025年上半年的销售数据，包括销售额、用户增长、转化率等关键指标。数据显示，销售额整体呈上升趋势，第二季度增长尤为明显，但用户转化率仍有提升空间。</p>
+                </div>
+                <div class="mb-6">
+                    <h4 class="text-md font-semibold text-gray-800 mb-2">关键指标</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-gray-500 text-sm">总销售额</p>
+                            <p class="text-2xl font-bold text-primary">¥1,250,000</p>
+                            <p class="text-green-600 text-sm">↑ 15.3% 同比</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-gray-500 text-sm">新增用户</p>
+                            <p class="text-2xl font-bold text-primary">3,240</p>
+                            <p class="text-green-600 text-sm">↑ 8.7% 同比</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-gray-500 text-sm">平均转化率</p>
+                            <p class="text-2xl font-bold text-primary">5.2%</p>
+                            <p class="text-red-600 text-sm">↓ 0.8% 同比</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <h4 class="text-md font-semibold text-gray-800 mb-2">详细分析</h4>
+                    <p class="text-gray-600 mb-4">销售额在过去6个月呈现波动上升趋势，其中3月和6月出现明显增长。移动端用户占比持续提升，已达到总用户的78%，但移动端转化率低于PC端，需要进一步优化移动端用户体验。</p>
+                    <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                        <h5 class="font-medium text-gray-800 mb-2">用户群体分析</h5>
+                        <p class="text-gray-600">18-24岁年龄段用户增长最快，但转化率最低；25-40岁用户群体是主要消费力量，转化率和客单价均较高；40岁以上用户群体规模较小但忠诚度高。</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h5 class="font-medium text-gray-800 mb-2">地区分布</h5>
+                        <p class="text-gray-600">一线城市用户占比45%，贡献了58%的销售额；新一线城市用户增长最快，同比增长23%；三四线城市市场潜力巨大，但目前渗透率较低。</p>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <h4 class="text-md font-semibold text-gray-800 mb-2">建议行动</h4>
+                    <ul class="list-disc list-inside text-gray-600">
+                        <li>优化移动端购物体验，提高移动端转化率</li>
+                        <li>针对18-24岁用户群体开展专属营销活动，提升转化率</li>
+                        <li>加大对新一线城市和三四线城市的市场投入</li>
+                        <li>推出针对高忠诚度用户的会员专属福利，提高复购率</li>
+                    </ul>
+                </div>
+                <div class="flex justify-end">
+                    <button class="btn-secondary mr-3">打印报告</button>
+                    <button class="btn-primary">导出PDF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* 开关样式 */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+        }
+        
+        input:checked + .slider {
+            background-color: #E53E3E;
+        }
+        
+        input:focus + .slider {
+            box-shadow: 0 0 1px #E53E3E;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .slider.round {
+            border-radius: 24px;
+        }
+        
+        .slider.round:before {
+            border-radius: 50%;
+        }
+        
+        /* 页面切换动画 */
+        .page-section {
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        .page-section.hidden {
+            display: none;
+        }
+        
+        /* 内容标签切换 */
+        .content-tab {
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        .content-tab.hidden {
+            display: none;
+        }
+    </style>
+
+    <script>
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化图表
+            initCharts();
+            
+            // 导航切换
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = this.getAttribute('data-target');
+                    navigateTo(target);
+                });
+            });
+            
+            // 移动端导航
+            const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+            const mobileNav = document.getElementById('mobile-nav');
+            const mobileNavClose = document.getElementById('mobile-nav-close');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+            
+            mobileNavToggle.addEventListener('click', function() {
+                mobileNav.classList.toggle('hidden');
+                document.querySelector('#mobile-nav > div').classList.toggle('transform');
+                document.querySelector('#mobile-nav > div').classList.toggle('-translate-x-full');
+            });
+            
+            mobileNavClose.addEventListener('click', function() {
+                document.querySelector('#mobile-nav > div').classList.add('-translate-x-full');
+                setTimeout(() => {
+                    mobileNav.classList.add('hidden');
+                }, 300);
+            });
+            
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = this.getAttribute('data-target');
+                    navigateTo(target);
+                    
+                    document.querySelector('#mobile-nav > div').classList.add('-translate-x-full');
+                    setTimeout(() => {
+                        mobileNav.classList.add('hidden');
+                    }, 300);
+                });
+            });
+            
+            // 内容标签切换
+            window.showContentTab = function(tabId) {
+                const tabs = document.querySelectorAll('.content-tab');
+                tabs.forEach(tab => {
+                    tab.classList.add('hidden');
+                });
+                document.getElementById(tabId + '-tab').classList.remove('hidden');
+            };
+            
+            // 按钮事件监听
+            document.getElementById('search-data-btn').addEventListener('click', function() {
+                document.getElementById('data-loading').classList.remove('hidden');
+                document.getElementById('data-results').classList.add('hidden');
+                
+                setTimeout(() => {
+                    document.getElementById('data-loading').classList.add('hidden');
+                    document.getElementById('data-results').classList.remove('hidden');
+                }, 1500);
+            });
+            
+            document.getElementById('generate-report-btn').addEventListener('click', function() {
+                document.getElementById('report-modal').classList.remove('hidden');
+            });
+            
+            document.getElementById('close-report-modal').addEventListener('click', function() {
+                document.getElementById('report-modal').classList.add('hidden');
+            });
+            
+            document.getElementById('generate-plan-btn').addEventListener('click', function() {
+                document.getElementById('plan-modal').classList.remove('hidden');
+            });
+            
+            document.getElementById('close-plan-modal').addEventListener('click', function() {
+                document.getElementById('plan-modal').classList.add('hidden');
+            });
+            
+            document.getElementById('generate-copy-btn').addEventListener('click', function() {
+                document.getElementById('copy-loading').classList.remove('hidden');
+                document.getElementById('copy-results').classList.add('hidden');
+                
+                setTimeout(() => {
+                    document.getElementById('copy-loading').classList.add('hidden');
+                    document.getElementById('copy-results').classList.remove('hidden');
+                }, 1500);
+            });
+            
+            document.getElementById('generate-ppt-btn').addEventListener('click', function() {
+                document.getElementById('ppt-loading').classList.remove('hidden');
+                document.getElementById('ppt-results').classList.add('hidden');
+                
+                setTimeout(() => {
+                    document.getElementById('ppt-loading').classList.add('hidden');
+                    document.getElementById('ppt-results').classList.remove('hidden');
+                }, 1500);
+            });
+            
+            document.getElementById('process-video-btn').addEventListener('click', function() {
+                alert('视频处理功能正在开发中，敬请期待！');
+            });
+            
+            document.getElementById('generate-image-btn').addEventListener('click', function() {
+                document.getElementById('image-loading').classList.remove('hidden');
+                document.getElementById('image-results').classList.add('hidden');
+                
+                setTimeout(() => {
+                    document.getElementById('image-loading').classList.add('hidden');
+                    document.getElementById('image-results').classList.remove('hidden');
+                }, 1500);
+            });
+            
+            document.getElementById('evaluate-plan-btn').addEventListener('click', function() {
+                alert('方案评估功能正在开发中，敬请期待！');
+            });
+            
+            // AI助手聊天功能
+            const chatInput = document.getElementById('chat-input');
+            const sendMessageBtn = document.getElementById('send-message-btn');
+            const chatMessages = document.getElementById('chat-messages');
+            
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (message === '') return;
+                
+                // 添加用户消息
+                chatMessages.innerHTML += `
+                    <div class="flex justify-end mb-6">
+                        <div class="mr-3 bg-primary rounded-lg p-3 max-w-3/4">
+                            <p class="text-white">${message}</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center flex-shrink-0">
+                            <i class="fa fa-user text-gray-600 text-sm"></i>
+                        </div>
+                    </div>
+                `;
+                
+                chatInput.value = '';
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // 模拟AI回复
+                setTimeout(() => {
+                    chatMessages.innerHTML += `
+                        <div class="flex mb-6">
+                            <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                                <i class="fa fa-robot text-primary text-sm"></i>
+                            </div>
+                            <div class="ml-3 bg-gray-100 rounded-lg p-3 max-w-3/4">
+                                <p class="text-gray-800">感谢您的提问！我正在分析您的问题，这需要一些时间。请稍候，我会尽快给您提供详细的回答。</p>
+                            </div>
+                        </div>
+                    `;
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+            }
+            
+            sendMessageBtn.addEventListener('click', sendMessage);
+            
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        });
+        
+        // 导航到指定页面
+        window.navigateTo = function(targetId) {
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(section => {
+                section.classList.add('hidden');
+                section.classList.remove('active');
+            });
+            
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+                targetSection.classList.add('active');
+            }
+            
+            // 更新导航状态
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                if (link.getAttribute('data-target') === targetId) {
+                    link.classList.add('bg-primary', 'text-white');
+                    link.classList.remove('text-gray-700');
+                } else {
+                    link.classList.remove('bg-primary', 'text-white');
+                    link.classList.add('text-gray-700');
+                }
+            });
+        };
+        
+        // 初始化图表
+        function initCharts() {
+            // 销售趋势图表
+            const salesCtx = document.getElementById('salesChart');
+            if (salesCtx) {
+                new Chart(salesCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['1月', '2月', '3月', '4月', '5月', '6月'],
+                        datasets: [{
+                            label: '销售额',
+                            data: [18000, 22000, 25000, 24000, 26000, 30000],
+                            backgroundColor: 'rgba(229, 62, 62, 0.1)',
+                            borderColor: '#E53E3E',
+                            borderWidth: 2,
+                            tension: 0.3,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.05)'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // 用户分布图表
+            const userCtx = document.getElementById('userChart');
+            if (userCtx) {
+                new Chart(userCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['18-24岁', '25-34岁', '35-44岁', '45-54岁', '55岁以上'],
+                        datasets: [{
+                            data: [25, 35, 20, 15, 5],
+                            backgroundColor: [
+                                '#E53E3E',
+                                '#ED8936',
+                                '#ECC94B',
+                                '#48BB78',
+                                '#4299E1'
+                            ],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'right'
+                            }
+                        },
+                        cutout: '60%'
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
